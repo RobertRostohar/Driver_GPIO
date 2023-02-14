@@ -270,21 +270,21 @@ static int32_t GPIO_Setup (ARM_GPIO_Pin_t pin, ARM_GPIO_SignalEvent_t cb_event) 
     pin_num  = pin & 0x0FU;
     pin_mask = 1U << pin_num;
     gpio = GPIOx[pin_port];
-    if (gpio != NULL) {
-      if (SignalEvent[pin_num] == NULL) {
+    if ((gpio != NULL) && ((cb_event == NULL) || (SignalEvent[pin_num] == NULL))) {
+      init.Pin       = pin_mask;
+      init.Mode      = GPIO_MODE_INPUT | GPIO_MODE_OUTPUT_PP;
+      init.Pull      = GPIO_NOPULL;
+      init.Speed     = GPIO_SPEED_FREQ_LOW;
+      init.Alternate = 0U;
+      GPIO_ClockEnable(gpio);
+      HAL_GPIO_WritePin(gpio, (uint16_t)pin_mask, GPIO_PIN_RESET);
+      HAL_GPIO_Init(gpio, &init);
+      if (cb_event != NULL) {
         SignalEvent[pin_num] = cb_event;
         SignalPort [pin_num] = (uint8_t)pin_port;
-        init.Pin       = pin_mask;
-        init.Mode      = GPIO_MODE_INPUT | GPIO_MODE_OUTPUT_PP;
-        init.Pull      = GPIO_NOPULL;
-        init.Speed     = GPIO_SPEED_FREQ_LOW;
-        init.Alternate = 0U;
-        GPIO_ClockEnable(gpio);
-        HAL_GPIO_WritePin(gpio, (uint16_t)pin_mask, GPIO_PIN_RESET);
-        HAL_GPIO_Init(gpio, &init);
         NVIC_EnableIRQ(EXTIx_IRQn[pin_num]);
-        result = ARM_DRIVER_OK;
       }
+      result = ARM_DRIVER_OK;
     }
   }
 
