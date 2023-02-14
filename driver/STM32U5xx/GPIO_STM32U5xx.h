@@ -31,6 +31,18 @@ extern "C"
 
 #include "Driver_GPIO.h"
 
+// Pin mapping
+#define GPIO_PORTA(n)   (  0U + (n))
+#define GPIO_PORTB(n)   ( 16U + (n))
+#define GPIO_PORTC(n)   ( 32U + (n))
+#define GPIO_PORTD(n)   ( 48U + (n))
+#define GPIO_PORTE(n)   ( 64U + (n))
+#define GPIO_PORTF(n)   ( 80U + (n))
+#define GPIO_PORTG(n)   ( 96U + (n))
+#define GPIO_PORTH(n)   (112U + (n))
+#define GPIO_PORTI(n)   (128U + (n))
+#define GPIO_PORTJ(n)   (144U + (n))
+
 // EXTIx IRQ Handlers
 extern void EXTI0_IRQHandler (void);
 extern void EXTI1_IRQHandler (void);
