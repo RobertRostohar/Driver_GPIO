@@ -18,11 +18,11 @@
  * $Date:        10. February 2023
  * $Revision:    V1.0
  *
- * Project:      GPIO Driver definitions for Kinetis K22F
+ * Project:      GPIO Driver definitions for i.MX RT1050
  */
 
-#ifndef GPIO_MK22F_H_
-#define GPIO_MK22F_H_
+#ifndef GPIO_IMXRT1050_H_
+#define GPIO_IMXRT1050_H_
 
 #ifdef  __cplusplus
 extern "C"
@@ -30,6 +30,13 @@ extern "C"
 #endif
 
 #include "Driver_GPIO.h"
+
+// Pin mapping
+#define GPIO_PORT1(n)   (  0U + (n))
+#define GPIO_PORT2(n)   ( 32U + (n))
+#define GPIO_PORT3(n)   ( 64U + (n))
+#define GPIO_PORT4(n)   ( 96U + (n))
+#define GPIO_PORT5(n)   (128U + (n))
 
 // PORTx IRQ Handlers
 extern void GPIO1_Combined_0_15_IRQHandler (void);
@@ -43,11 +50,11 @@ extern void GPIO4_Combined_16_31_IRQHandler (void);
 extern void GPIO5_Combined_0_15_IRQHandler (void);
 extern void GPIO5_Combined_16_31_IRQHandler (void);
 
-// GPIO0 Driver access structure
+// GPIO Driver access structure
 extern ARM_DRIVER_GPIO Driver_GPIO;
 
 #ifdef  __cplusplus
 }
 #endif
 
-#endif /* GPIO_MK22F_H_ */
+#endif /* GPIO_IMXRT1050_H_ */
