@@ -51,7 +51,7 @@ extern void GPIO5_Combined_0_15_IRQHandler (void);
 extern void GPIO5_Combined_16_31_IRQHandler (void);
 
 // GPIO Driver access structure
-extern ARM_DRIVER_GPIO Driver_GPIO;
+extern ARM_DRIVER_GPIO Driver_GPIO0;
 
 #ifdef  __cplusplus
 }
