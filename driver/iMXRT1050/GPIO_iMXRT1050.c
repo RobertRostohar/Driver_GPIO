@@ -307,13 +307,16 @@ static int32_t GPIO_Setup (ARM_GPIO_Pin_t pin, ARM_GPIO_SignalEvent_t cb_event) 
     pin_port = pin >> 5U;
     pin_num  = pin & 0x1FU;
     gpio = GPIOBase[pin_port];
-    SignalEvent[pin_port][pin_num] = cb_event;
     CLOCK_EnableClock(ClockIP[pin_port]);
     GPIO_SetPinInterruptConfig(gpio, pin_num, kGPIO_NoIntmode);
     GPIO_PinSetDirection(gpio, pin_num, kGPIO_DigitalInput);
     IOMUXC_SetPinConfig(0U, 0U, 0U, 0U, PinConfig[pin].configRegister, DefaultPinConfig);
     IOMUXC_SetPinMux(PinConfig[pin].muxRegister, PinConfig[pin].muxMode, 0U, 0U, 0U, 0U);
-    NVIC_EnableIRQ(GPIOIRQn[(pin_port << 1U) + (pin_num >> 4U)]);
+    if (cb_event != NULL) {
+      SignalEvent[pin_port][pin_num] = cb_event;
+      GPIO_PortEnableInterrupts(gpio, 1U << pin_num);
+      NVIC_EnableIRQ(GPIOIRQn[(pin_port << 1U) + (pin_num >> 4U)]);
+    }
     result = ARM_DRIVER_OK;
   }
 

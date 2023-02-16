@@ -151,12 +151,14 @@ static int32_t GPIO_Setup (ARM_GPIO_Pin_t pin, ARM_GPIO_SignalEvent_t cb_event) 
     pin_num  = pin & 0x1FU;
     port = PortBase[pin_port];
     gpio = GPIOBase[pin_port];
-    SignalEvent[pin_port][pin_num] = cb_event;
     CLOCK_EnableClock(ClockIP[pin_port]);
     PORT_SetPinInterruptConfig(port, pin_num, kPORT_InterruptOrDMADisabled);
     GPIO_PinSetDirection(gpio, pin_num, kGPIO_DigitalInput);
     PORT_SetPinConfig(port, pin_num, &DefaultPinConfig);
-    NVIC_EnableIRQ(PortIRQn[pin_port]);
+    if (cb_event != NULL) {
+      SignalEvent[pin_port][pin_num] = cb_event;
+      NVIC_EnableIRQ(PortIRQn[pin_port]);
+    }
     result = ARM_DRIVER_OK;
   }
 
