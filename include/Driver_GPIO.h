@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * $Date:        10. February 2023
+ * $Date:        2. March 2023
  * $Revision:    V1.0
  *
  * Project:      GPIO (General-purpose Input/Output) Driver definitions
@@ -77,6 +77,10 @@ typedef enum {
 #define ARM_GPIO_EVENT_RISING_EDGE      (1UL << 0)  ///< Rising-edge detected
 #define ARM_GPIO_EVENT_FALLING_EDGE     (1UL << 1)  ///< Falling-edge detected
 #define ARM_GPIO_EVENT_EITHER_EDGE      (1UL << 2)  ///< Either edge detected
+
+
+/****** GPIO specific error codes *****/
+#define ARM_GPIO_ERROR_PIN              (ARM_DRIVER_ERROR_SPECIFIC - 1) ///< Specified Pin not available
 
 
 // Function documentation
