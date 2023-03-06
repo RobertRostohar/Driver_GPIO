@@ -89,6 +89,15 @@ static const uint32_t DefaultPinConfig = (
 );
 
 
+#if   defined(CPU_LPC54114J256BD64_cm0plus) || \
+      defined(CPU_LPC54114J256UK49_cm0plus)
+#define GPIO_MAX_IRQS           4U
+
+// PINx IRQ Numbers
+static IRQn_Type const PinIRQn[GPIO_MAX_IRQS] = {
+  PIN_INT0_IRQn, PIN_INT1_IRQn, PIN_INT2_IRQn, PIN_INT3_IRQn
+};
+#else
 #define GPIO_MAX_IRQS           8U
 
 // PINx IRQ Numbers
@@ -96,6 +105,7 @@ static IRQn_Type const PinIRQn[GPIO_MAX_IRQS] = {
   PIN_INT0_IRQn, PIN_INT1_IRQn, PIN_INT2_IRQn, PIN_INT3_IRQn,
   PIN_INT4_IRQn, PIN_INT5_IRQn, PIN_INT6_IRQn, PIN_INT7_IRQn
 };
+#endif
 
 
 // Clock IP Names
