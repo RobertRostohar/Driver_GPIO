@@ -130,11 +130,11 @@ static void PIN_INTx_IRQHandler (uint32_t num) {
 
   if (PINT_PinInterruptGetRiseFlag(PINT, (pint_pin_int_t)num)) {
     PINT_PinInterruptClrRiseFlag(PINT, (pint_pin_int_t)num);
-    event = ARM_GPIO_EVENT_RISING_EDGE;
+    event |= ARM_GPIO_EVENT_RISING_EDGE;
   }
   if (PINT_PinInterruptGetFallFlag(PINT, (pint_pin_int_t)num)) {
     PINT_PinInterruptClrFallFlag(PINT, (pint_pin_int_t)num);
-    event = ARM_GPIO_EVENT_FALLING_EDGE;
+    event |= ARM_GPIO_EVENT_FALLING_EDGE;
   }
 
   if (event != 0U) {
