@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * $Date:        2. March 2023
+ * $Date:        20. March 2023
  * $Revision:    V1.0
  *
  * Project:      GPIO Driver for Kinetis K22F
@@ -331,10 +331,10 @@ static int32_t GPIO_SetPullResistor (ARM_GPIO_Pin_t pin, ARM_GPIO_PULL_RESISTOR 
         PORT_SetPinPullConfig(port, pin_num, kPORT_PullDisable);
         break;
       case ARM_GPIO_PULL_UP:
-        PORT_SetPinPullConfig(port, pin_num, kPORT_PullDown);
+        PORT_SetPinPullConfig(port, pin_num, kPORT_PullUp);
         break;
       case ARM_GPIO_PULL_DOWN:
-        PORT_SetPinPullConfig(port, pin_num, kPORT_PullUp);
+        PORT_SetPinPullConfig(port, pin_num, kPORT_PullDown);
         break;
       default:
         result = ARM_DRIVER_ERROR_PARAMETER;
