@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * $Date:        2. March 2023
+ * $Date:        21. March 2023
  * $Revision:    V1.0
  *
  * Project:      GPIO Driver for i.MX RT1050
@@ -322,7 +322,7 @@ static int32_t GPIO_Setup (ARM_GPIO_Pin_t pin, ARM_GPIO_SignalEvent_t cb_event) 
     IOMUXC_SetPinMux(PinConfig[pin].muxRegister, PinConfig[pin].muxMode, 0U, 0U, 0U, 0U);
     if (cb_event != NULL) {
       SignalEvent[pin_port][pin_num] = cb_event;
-      GPIO_PortEnableInterrupts(gpio, 1U << pin_num);
+      GPIO_PortDisableInterrupts(gpio, 1U << pin_num);
       NVIC_EnableIRQ(GPIOIRQn[(pin_port << 1U) + (pin_num >> 4U)]);
     }
   } else {
@@ -431,16 +431,20 @@ static int32_t GPIO_SetEventTrigger (ARM_GPIO_Pin_t pin, ARM_GPIO_EVENT_TRIGGER 
     gpio = GPIOBase[pin_port];
     switch (trigger) {
       case ARM_GPIO_TRIGGER_NONE:
+        GPIO_PortDisableInterrupts(gpio, 1U << pin_num);
         GPIO_PinSetInterruptConfig(gpio, pin_num, kGPIO_NoIntmode);
         break;
       case ARM_GPIO_TRIGGER_RISING_EDGE:
         GPIO_PinSetInterruptConfig(gpio, pin_num, kGPIO_IntRisingEdge);
+        GPIO_PortEnableInterrupts(gpio, 1U << pin_num);
         break;
       case ARM_GPIO_TRIGGER_FALLING_EDGE:
         GPIO_PinSetInterruptConfig(gpio, pin_num, kGPIO_IntFallingEdge);
+        GPIO_PortEnableInterrupts(gpio, 1U << pin_num);
         break;
       case ARM_GPIO_TRIGGER_EITHER_EDGE:
         GPIO_PinSetInterruptConfig(gpio, pin_num, kGPIO_IntRisingOrFallingEdge);
+        GPIO_PortEnableInterrupts(gpio, 1U << pin_num);
         break;
       default:
         result = ARM_DRIVER_ERROR_PARAMETER;
