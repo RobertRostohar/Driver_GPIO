@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * $Date:        2. March 2023
+ * $Date:        22. March 2023
  * $Revision:    V1.0
  *
  * Project:      GPIO Driver for STM32U5xx
@@ -133,6 +133,14 @@ static void GPIO_ClockEnable (GPIO_TypeDef *gpio) {
 #endif
 }
 
+
+// EXTI Line Parameters
+static uint32_t EXTI_input[16] = {
+  LL_EXTI_EXTI_LINE0,  LL_EXTI_EXTI_LINE1,  LL_EXTI_EXTI_LINE2,  LL_EXTI_EXTI_LINE3,
+  LL_EXTI_EXTI_LINE4,  LL_EXTI_EXTI_LINE5,  LL_EXTI_EXTI_LINE6,  LL_EXTI_EXTI_LINE7,
+  LL_EXTI_EXTI_LINE8,  LL_EXTI_EXTI_LINE9,  LL_EXTI_EXTI_LINE10, LL_EXTI_EXTI_LINE11,
+  LL_EXTI_EXTI_LINE12, LL_EXTI_EXTI_LINE13, LL_EXTI_EXTI_LINE14, LL_EXTI_EXTI_LINE15,
+};
 
 // EXTIx IRQ Numbers
 static IRQn_Type const EXTIx_IRQn[16] = {
@@ -419,31 +427,31 @@ static int32_t GPIO_SetEventTrigger (ARM_GPIO_Pin_t pin, ARM_GPIO_EVENT_TRIGGER 
           if (SignalPort[pin_num] == (uint8_t)pin_port) {
             LL_EXTI_DisableFallingTrig_0_31(pin_mask);
             LL_EXTI_EnableRisingTrig_0_31(pin_mask);
-            LL_EXTI_DisableIT_0_31(pin_num);
+            LL_EXTI_DisableIT_0_31(pin_mask);
           }
           break;
         case ARM_GPIO_TRIGGER_RISING_EDGE:
           if (SignalPort[pin_num] == (uint8_t)pin_port) {
-            LL_EXTI_SetEXTISource(pin_port, (8U*(pin_num & 0x03U)) | (pin_num >> 2U));
+            LL_EXTI_SetEXTISource(pin_port, EXTI_input[pin_num]);
             LL_EXTI_DisableFallingTrig_0_31(pin_mask);
             LL_EXTI_EnableRisingTrig_0_31(pin_mask);
-            LL_EXTI_EnableIT_0_31(pin_num);
+            LL_EXTI_EnableIT_0_31(pin_mask);
           }
           break;
         case ARM_GPIO_TRIGGER_FALLING_EDGE:
           if (SignalPort[pin_num] == (uint8_t)pin_port) {
-            LL_EXTI_SetEXTISource(pin_port, (8U*(pin_num & 0x03U)) | (pin_num >> 2U));
+            LL_EXTI_SetEXTISource(pin_port, EXTI_input[pin_num]);
             LL_EXTI_DisableRisingTrig_0_31(pin_mask);
             LL_EXTI_EnableFallingTrig_0_31(pin_mask);
-            LL_EXTI_EnableIT_0_31(pin_num);
+            LL_EXTI_EnableIT_0_31(pin_mask);
           }
           break;
         case ARM_GPIO_TRIGGER_EITHER_EDGE:
           if (SignalPort[pin_num] == (uint8_t)pin_port) {
-            LL_EXTI_SetEXTISource(pin_port, (8U*(pin_num & 0x03U)) | (pin_num >> 2U));
+            LL_EXTI_SetEXTISource(pin_port, EXTI_input[pin_num]);
             LL_EXTI_EnableRisingTrig_0_31(pin_mask);
             LL_EXTI_EnableFallingTrig_0_31(pin_mask);
-            LL_EXTI_EnableIT_0_31(pin_num);
+            LL_EXTI_EnableIT_0_31(pin_mask);
           }
           break;
         default:
