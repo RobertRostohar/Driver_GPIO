@@ -76,7 +76,7 @@ typedef enum {
 /****** GPIO Event *****/
 #define ARM_GPIO_EVENT_RISING_EDGE      (1UL << 0)  ///< Rising-edge detected
 #define ARM_GPIO_EVENT_FALLING_EDGE     (1UL << 1)  ///< Falling-edge detected
-#define ARM_GPIO_EVENT_EITHER_EDGE      (1UL << 2)  ///< Either edge detected
+#define ARM_GPIO_EVENT_EITHER_EDGE      (1UL << 2)  ///< Either edge detected (only when hardware cannot distinguish between rising and falling edge)
 
 
 /****** GPIO specific error codes *****/
