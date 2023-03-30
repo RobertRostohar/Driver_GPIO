@@ -1,3 +1,5 @@
+DEPRECATED: moved to https://github.com/Open-CMSIS-Pack/RefApp-Framework/tree/main/interface/gpio
+
 # GPIO Driver
 
 Proposal for GPIO (General-purpose Input/Output) Driver:
